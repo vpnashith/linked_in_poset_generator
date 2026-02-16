@@ -1,0 +1,1 @@
+1. Source data is directly got from linked in. It contain the string as post and engagement as number of reactions to that post
