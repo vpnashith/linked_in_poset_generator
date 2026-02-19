@@ -14,7 +14,7 @@ import pandas as pd
 class FewShotPosts:
     def __init__(self, file_path="data/processed_data.json"):
         self.df = None
-        self.unique_tags = None
+        self.unique_tags_per_author = None
         self.authors = None
         self.load_post(file_path)
 
@@ -24,8 +24,13 @@ class FewShotPosts:
             self.df = pd.json_normalize(posts)
             self.df["length"] = self.df["line_count"].apply(self.length_category)
 
-            available_tags = self.df["tags"].apply(lambda x: x).sum()
-            self.unique_tags = set(available_tags)
+            # available_tags = self.df["tags"].apply(lambda x: x).sum()
+            available_author_to_tag_dict = (
+                self.df.groupby("author")["tags"]
+                .apply(lambda col: set(tag for tags in col for tag in tags))
+                .to_dict()
+            )
+            self.unique_tags_per_author = available_author_to_tag_dict
 
             self.authors = set(self.df["author"].unique())
 
@@ -36,8 +41,8 @@ class FewShotPosts:
             return "Medium"
         return "Long"
 
-    def get_unique_tags(self):
-        return self.unique_tags
+    def get_unique_tags(self, author):
+        return self.unique_tags_per_author.get(author)
 
     def get_authors(self):
         return self.authors
@@ -56,7 +61,7 @@ if __name__ == "__main__":
     fs = FewShotPosts()
     # print(posts)
     print(fs.get_authors())
-    print(fs.get_unique_tags())
+    print(fs.get_unique_tags("Muskan Handa"))
     posts = fs.get_filtered_post("Short", "Hinglish", "Productivity", "Muskan Handa")
     print(posts)
 

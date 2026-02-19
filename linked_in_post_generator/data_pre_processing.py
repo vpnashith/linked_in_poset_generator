@@ -97,7 +97,7 @@ class PreProcessing:
 
         for post in post_with_metadata:
             existing_tag = post["tags"]
-            updated_unified_tag = {unified_tags[tag] for tag in existing_tag}
+            updated_unified_tag = {unified_tags.get(tag) for tag in existing_tag}
             post["tags"] = list(updated_unified_tag)
             # print(post["tags"])
 

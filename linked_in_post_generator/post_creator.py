@@ -44,7 +44,7 @@ class PostGenerator:
                 prompt += f"\n\n Example {i+1}: \n\n {post_content}"
 
                 # I need max 2 example
-                if i == 1:
+                if i == 2:
                     break
 
         return prompt

@@ -41,8 +41,8 @@ def main():
     few_shot_post = FewShotPosts()
     with st.sidebar:
         st.header("⚙️ Post Settings")
-        selected_tag = st.selectbox("Title", options=few_shot_post.get_unique_tags())
         selected_author = st.selectbox("Author Style", options=few_shot_post.get_authors())
+        selected_tag = st.selectbox("Title", options=few_shot_post.get_unique_tags(selected_author))
         selected_length = st.radio("Content Length", ["Short", "Medium", "Long"])
         selected_language = st.radio("Language", ["English", "Hinglish"])
 
@@ -58,7 +58,7 @@ def main():
         """
         <hr>
         <div style='text-align: center; color: gray;'>
-            Made with ❤️ by Nashith VP
+            Made by Nashith VP
         </div>
         """,
         unsafe_allow_html=True
