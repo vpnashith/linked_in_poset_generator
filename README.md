@@ -21,3 +21,6 @@ You can select the **author** and the **title** for the required subject, custom
 
    ```bash
    GROQ_API_KEY=your_api_key_here
+
+## 🔑 Enhancement
+ - Upload more real world data for more tailoring
