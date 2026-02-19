@@ -42,13 +42,14 @@ def main():
     with st.sidebar:
         st.header("⚙️ Post Settings")
         selected_tag = st.selectbox("Title", options=few_shot_post.get_unique_tags())
+        selected_author = st.selectbox("Author Style", options=few_shot_post.get_authors())
         selected_length = st.radio("Content Length", ["Short", "Medium", "Long"])
         selected_language = st.radio("Language", ["English", "Hinglish"])
 
     # Main content area
     st.markdown("<hr>", unsafe_allow_html=True)
     if st.button("✨ Create Post", use_container_width=True):
-        post_generator = PostGenerator(selected_length, selected_language, selected_tag)
+        post_generator = PostGenerator(selected_length, selected_language, selected_tag, selected_author)
         st.success("Here’s your generated post:")
         st.write(post_generator.generate_post())
 

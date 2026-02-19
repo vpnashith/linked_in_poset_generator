@@ -15,6 +15,7 @@ class FewShotPosts:
     def __init__(self, file_path="data/processed_data.json"):
         self.df = None
         self.unique_tags = None
+        self.authors = None
         self.load_post(file_path)
 
     def load_post(self, file_path):
@@ -26,6 +27,8 @@ class FewShotPosts:
             available_tags = self.df["tags"].apply(lambda x: x).sum()
             self.unique_tags = set(available_tags)
 
+            self.authors = set(self.df["author"].unique())
+
     def length_category(self, line_count):
         if line_count < 5:
             return "Short"
@@ -36,15 +39,24 @@ class FewShotPosts:
     def get_unique_tags(self):
         return self.unique_tags
 
-    def get_filtered_post(self, length, language, tag):
+    def get_authors(self):
+        return self.authors
+
+    def get_filtered_post(self, length, language, tag, author_style):
         filtered_df = self.df[
             (self.df["language"] == language) &
             (self.df["length"] == length) &
-            (self.df["tags"].apply(lambda tags: tag in tags))
+            (self.df["tags"].apply(lambda tags: tag in tags)) &
+            (self.df["author"] == author_style)
         ]
         return filtered_df.to_dict(orient="records")
 
+
 if __name__ == "__main__":
     fs = FewShotPosts()
-    posts = fs.get_filtered_post("Short", "Hinglish", "Productivity")
+    # print(posts)
+    print(fs.get_authors())
+    print(fs.get_unique_tags())
+    posts = fs.get_filtered_post("Short", "Hinglish", "Productivity", "Muskan Handa")
     print(posts)
+

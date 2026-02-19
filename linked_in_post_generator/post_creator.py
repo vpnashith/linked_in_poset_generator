@@ -14,10 +14,11 @@ few_shot = FewShotPosts()
 
 
 class PostGenerator:
-    def __init__(self, length, language, tag):
+    def __init__(self, length, language, tag, author):
         self.length = length
         self.language = language
         self.topic = tag
+        self.author = author
 
     def length_resolver(self, length):
         if length == "Short":
@@ -35,7 +36,7 @@ class PostGenerator:
                     the script generate should be always in english alphabet
                     3. length of the script: {length_of_script}
                 """
-        similar_posts = few_shot.get_filtered_post(self.length, self.language, self.topic)
+        similar_posts = few_shot.get_filtered_post(self.length, self.language, self.topic, self.author)
         if similar_posts:
             prompt += "4. Use the following writing style to create the new post"
             for i, post in enumerate(similar_posts):
@@ -55,5 +56,5 @@ class PostGenerator:
 
 
 if __name__ == "__main__":
-    pg = PostGenerator("Short", "Hinglish", "Productivity")
+    pg = PostGenerator("Short", "Hinglish", "Productivity", "Muskan Handa")
     print(pg.generate_post())
