@@ -7,9 +7,10 @@
     
     Created On: 16-02-2026
 """
+from groq import APIConnectionError
 from llm_utils import llm
 from few_shot import FewShotPosts
-
+from exception_message import ExceptionMessage
 few_shot = FewShotPosts()
 
 
@@ -51,8 +52,14 @@ class PostGenerator:
 
     def generate_post(self):
         prompt = self.get_prompt()
-        response = llm.invoke(prompt)
-        return response.content
+        try:
+            response = llm.invoke(prompt)
+        except APIConnectionError:
+            return {"status": False, "content": ExceptionMessage.INTERNET_CONNECTION_ERROR.value}
+        except Exception:
+            return {"status": False, "content": ExceptionMessage.UNKNOWN.value}
+
+        return {"status": True, "content": response.content}
 
 
 if __name__ == "__main__":

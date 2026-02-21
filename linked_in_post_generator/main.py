@@ -50,8 +50,12 @@ def main():
     st.markdown("<hr>", unsafe_allow_html=True)
     if st.button("✨ Create Post", use_container_width=True):
         post_generator = PostGenerator(selected_length, selected_language, selected_tag, selected_author)
-        st.success("Here’s your generated post:")
-        st.write(post_generator.generate_post())
+        generated_post = post_generator.generate_post()
+        if generated_post["status"]:
+            st.success("Here’s your generated post:")
+        else:
+            st.error("Error")
+        st.write(generated_post["content"])
 
     # Footer
     st.markdown(
@@ -63,6 +67,7 @@ def main():
         """,
         unsafe_allow_html=True
     )
+
 
 if __name__ == "__main__":
     main()
