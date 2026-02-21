@@ -64,7 +64,7 @@ class PreProcessing:
         The response should satisfy the given criteria
         1. Return a valid JSON, No preamble
         2. JSON content should have exactly three keys: line_count, language and tags
-        3. tags is an array of text tags. Extract maximum two tags.
+        3. tags is an array of text tags and its value will be consider as the topic which the post in talking about. Extract maximum two tags.
         4. Language should be either English or Hinglish. Hinglish is post containing both hindi and english
         
         Here is the actual post you need to perform this task:
