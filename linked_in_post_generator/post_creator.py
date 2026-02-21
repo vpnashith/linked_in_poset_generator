@@ -10,7 +10,6 @@
 from groq import APIConnectionError
 from llm_utils import llm
 from few_shot import FewShotPosts
-from exception_message import ExceptionMessage
 few_shot = FewShotPosts()
 
 
@@ -55,11 +54,9 @@ class PostGenerator:
         try:
             response = llm.invoke(prompt)
         except APIConnectionError:
-            return {"status": False, "content": ExceptionMessage.INTERNET_CONNECTION_ERROR.value}
-        except Exception:
-            return {"status": False, "content": ExceptionMessage.UNKNOWN.value}
+            raise
 
-        return {"status": True, "content": response.content}
+        return response.content
 
 
 if __name__ == "__main__":

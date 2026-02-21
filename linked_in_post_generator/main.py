@@ -11,6 +11,8 @@ Created On: 15-02-2026
 import streamlit as st
 from few_shot import FewShotPosts
 from post_creator import PostGenerator
+from groq import APIConnectionError
+from exception_message import ExceptionMessage
 
 # Configure page
 st.set_page_config(
@@ -50,12 +52,12 @@ def main():
     st.markdown("<hr>", unsafe_allow_html=True)
     if st.button("✨ Create Post", use_container_width=True):
         post_generator = PostGenerator(selected_length, selected_language, selected_tag, selected_author)
-        generated_post = post_generator.generate_post()
-        if generated_post["status"]:
+        try:
+            generated_post = post_generator.generate_post()
             st.success("Here’s your generated post:")
-        else:
-            st.error("Error")
-        st.write(generated_post["content"])
+            st.write(generated_post)
+        except APIConnectionError:
+            st.error(ExceptionMessage.INTERNET_CONNECTION_ERROR.value)
 
     # Footer
     st.markdown(
